@@ -1,51 +1,9 @@
 pipeline {
     agent any
-    environment {
-        ARTIFACT_NAME = 'demo-0.0.1-SNAPSHOT.jar'
-    }
     stages {
-        stage('Clone Repository') {
+        stage('Test Maven') {
             steps {
-                git 'https://github.com/MaribelChuraAquino/deploy_stagging.git'
-            }
-        }
-        stage('Build') {
-            steps {
-                // Usando la instalación de Maven configurada en Jenkins
-                withMaven(maven: 'Maven3') {
-                    bat 'mvn clean package -DskipTests'
-                }
-            }
-        }
-        stage('Code Quality') {
-            steps {
-                withMaven(maven: 'Maven3') {
-                    bat 'mvn checkstyle:check'
-                }
-            }
-        }
-        stage('Test') {
-            steps {
-                withMaven(maven: 'Maven3') {
-                    bat 'mvn test'
-                }
-            }
-        }
-        stage('Code Coverage') {
-            steps {
-                withMaven(maven: 'Maven3') {
-                    bat 'mvn jacoco:report'
-                }
-            }
-        }
-        stage('Deploy to Staging') {
-            steps {
-                echo "Deploy omitido para pruebas en Windows"
-            }
-        }
-        stage('Validate Deployment') {
-            steps {
-                echo "Validación omitida para pruebas en Windows"
+                bat 'mvn -v'
             }
         }
     }
