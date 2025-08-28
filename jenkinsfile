@@ -11,32 +11,41 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat 'mvn clean package -DskipTests'
+                // Usando la instalación de Maven configurada en Jenkins
+                withMaven(maven: 'Maven3') {
+                    bat 'mvn clean package -DskipTests'
+                }
             }
         }
         stage('Code Quality') {
             steps {
-                bat 'mvn checkstyle:check'
+                withMaven(maven: 'Maven3') {
+                    bat 'mvn checkstyle:check'
+                }
             }
         }
         stage('Test') {
             steps {
-                bat 'mvn test'
+                withMaven(maven: 'Maven3') {
+                    bat 'mvn test'
+                }
             }
         }
         stage('Code Coverage') {
             steps {
-                bat 'mvn jacoco:report'
+                withMaven(maven: 'Maven3') {
+                    bat 'mvn jacoco:report'
+                }
             }
         }
         stage('Deploy to Staging') {
             steps {
-                echo "Aquí se haría el deploy al servidor de staging, pero se omite para pruebas en Windows"
+                echo "Deploy omitido para pruebas en Windows"
             }
         }
         stage('Validate Deployment') {
             steps {
-                echo "Aquí se validaría el despliegue, pero se omite para pruebas en Windows"
+                echo "Validación omitida para pruebas en Windows"
             }
         }
     }
